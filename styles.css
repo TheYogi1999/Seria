@@ -1,0 +1,28 @@
+*{
+	
+	color: black;	
+	font-family: Arial, sans-serif;
+
+}
+
+body{
+	height: 100vh;
+	background-color: wight;
+	font-size:12px;
+	background-image: url(background.svg);
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+tabel{
+	font-size:12px;
+
+}
+
+input {
+    border: none;
+    outline: none; /* Entfernt den Fokusrahmen */
+}
+
+	
+}

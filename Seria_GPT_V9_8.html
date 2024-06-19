@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Converter Serialization</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+		body {border: 0px solid red; padding-left: 2%; padding-top: 1%;}
+		table {border-collapse: collapse; margin-bottom: 20px;  }
+        table, th, td { border: 1px solid black;}
+        th, td { padding: 8px; text-align: left; font-weight: normal; }
+        input[type="text"] { border: none; padding: 0; margin: 0; background: none; font: inherit; width: auto; min-width: 1ch; box-sizing: content-box; font-weight: normal; }
+		input[type="number"] { border: none; padding: 0; margin: 0; background: none; font: inherit; width: auto; min-width: 1ch; box-sizing: content-box; font-weight: normal; }
+		select {border: none; font-size:12px;}
+		button {background-color: #ffffff; font-size:12px;}
+}
+		
+    </style>
+    <script>
+        function incrementPlusValue(value) {
+            let number = parseInt(value, 10) + 10;
+            return String(number).padStart(3, '0');
+        }
+
+        function incrementPlusSuffix(suffix) {
+            let number = parseInt(suffix.replace('.', ''), 10) + 1;
+            return '.' + String(number).padStart(suffix.length - 1, '0');
+        }
+
+        function adjustInputWidth(input) {
+            input.size = input.value.length || 1;
+        }
+
+        function createTables() {
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = '';
+
+            const numPL = parseInt(document.getElementById('numPL').value);
+            const numPLS = parseInt(document.getElementById('numPLS').value);
+            const numPEBB1 = parseInt(document.getElementById('numPEBB1').value);
+            const numPEBB2 = parseInt(document.getElementById('numPEBB2').value);
+            const numPEBB3 = parseInt(document.getElementById('numPEBB3').value);
+            const addPLEEC = document.getElementById('addPLEEC').checked;
+            const type = document.getElementById('type').value;
+
+            const prefixPL = document.getElementById('prefixPL').value;
+            let serialPL = parseInt(document.getElementById('startSerialNumberPL').value);
+            const prefixPLS = document.getElementById('prefixPLS').value;
+            let serialPLS = parseInt(document.getElementById('startSerialNumberPLS').value);
+            const prefixPLC = document.getElementById('prefixPLC').value;
+            let serialPLC = parseInt(document.getElementById('startSerialNumberPLC').value);
+            const prefixPLEEC = document.getElementById('prefixPLEEC').value;
+            let serialPLEEC = parseInt(document.getElementById('startSerialNumberPLEEC').value);
+            const prefixPEBB = document.getElementById('prefixPEBB').value;
+            let serialPEBB = parseInt(document.getElementById('startSerialNumberPEBB').value);
+
+            const equalValue = document.getElementById('equalValue').value;
+            const plusPrefix = document.getElementById('plusPrefix').value;
+            let plusValue = document.getElementById('plusValue').value;
+            const initialPlusSuffixPLS = document.getElementById('plusSuffixPLS').value;  // Store the initial value
+            let plusSuffixPLS = initialPlusSuffixPLS;  // Resettable variable
+            const plusSuffixPLC = document.getElementById('plusSuffixPLC').value;
+            const plusSuffixPLEEC = document.getElementById('plusSuffixPLEEC').value;
+            const initialPlusSuffixPEBB = document.getElementById('plusSuffixPEBB').value;
+            let plusSuffixPEBB = initialPlusSuffixPEBB;
+            const minusValue = document.getElementById('minusValue').value;
+
+            if (isNaN(numPL) || numPL < 3 || numPL > 9 || isNaN(numPLS) || numPLS < 1 || numPLS > 3 || 
+                isNaN(numPEBB1) || numPEBB1 < 0 || numPEBB1 > 7 || isNaN(numPEBB2) || numPEBB2 < 0 || numPEBB2 > 7 || 
+                isNaN(numPEBB3) || numPEBB3 < 0 || numPEBB3 > 7) {
+                alert('Please enter valid values:\nPL: 3-9\nPLS: 1-3\nPEBB: 0-7');
+                return;
+            }
+
+            for (let pl = 1; pl <= numPL; pl++) {
+                // Reset plusSuffixPLS and plusSuffixPEBB at the start of each PL
+                plusSuffixPLS = initialPlusSuffixPLS;
+                plusSuffixPEBB = initialPlusSuffixPEBB;
+
+                let table = document.createElement('table');
+                let caption = table.createCaption();
+                let phaseLegLabel;
+
+                if (type === 'STATCOM') {
+                    phaseLegLabel = `Phase Leg ${pl}:`;
+                } else if (type === 'RAIL') {
+                    let suffix = (pl % 2 === 1) ? 'a' : 'b';
+                    let legNumber = Math.ceil(pl / 2);
+                    phaseLegLabel = `Phase Leg ${legNumber}${suffix}:`;
+                } else if (type === 'HYDRO') {
+                    let suffix;
+                    if (pl % 3 === 1) {
+                        suffix = 'a';
+                    } else if (pl % 3 === 2) {
+                        suffix = 'b';
+                    } else {
+                        suffix = 'c';
+                    }
+                    let legNumber = Math.ceil(pl / 3);
+                    phaseLegLabel = `Phase Leg ${legNumber}${suffix}:`;
+                }
+
+                caption.innerHTML = `${phaseLegLabel} <input type="text" value="${prefixPL}${String(serialPL++).padStart(6, '0')}" readonly oninput="adjustInputWidth(this)">`;
+
+                let headerRow = table.insertRow();
+                let dataRow = table.insertRow();
+
+                let plcHeaderCell = document.createElement('th');
+                plcHeaderCell.rowSpan = 2;
+                plcHeaderCell.innerHTML = `PLC: <input type="text" value="${prefixPLC}${String(serialPLC++).padStart(6, '0')}" readonly oninput="adjustInputWidth(this)"><br>
+                                           <input type="text" value="${equalValue}" oninput="adjustInputWidth(this)"><br>
+                                           <input type="text" value="${plusPrefix}${plusValue}${plusSuffixPLC}" oninput="adjustInputWidth(this)"><br>
+                                           <input type="text" value="${minusValue}" oninput="adjustInputWidth(this)">`;
+                headerRow.appendChild(plcHeaderCell);
+
+                for (let pls = 1; pls <= numPLS; pls++) {
+                    let numPEBB = pls === 1 ? numPEBB1 : pls === 2 ? numPEBB2 : numPEBB3;
+                    let headerCell = document.createElement('th');
+                    headerCell.colSpan = numPEBB > 0 ? numPEBB : 1;
+                    headerCell.innerHTML = `PLS ${pls}: <input type="text" value="${prefixPLS}${String(serialPLS++).padStart(6, '0')}" readonly oninput="adjustInputWidth(this)"><br>
+                                            <input type="text" value="${equalValue}" oninput="adjustInputWidth(this)"><br>
+                                            <input type="text" value="${plusPrefix}${plusValue}${plusSuffixPLS}" oninput="adjustInputWidth(this)"><br>
+                                            <input type="text" value="${minusValue}" oninput="adjustInputWidth(this)">`;
+                    headerRow.appendChild(headerCell);
+
+                    plusSuffixPLS = incrementPlusSuffix(plusSuffixPLS);
+
+                    for (let pebb = 1; pebb <= numPEBB; pebb++) {
+                        let cell = dataRow.insertCell();
+                        cell.innerHTML = `PEBB ${pebb}: <input type="text" value="${prefixPEBB}${String(serialPEBB++).padStart(6, '0')}" readonly oninput="adjustInputWidth(this)"><br>
+                                          <input type="text" value="${equalValue}" oninput="adjustInputWidth(this)"><br>
+                                          <input type="text" value="${plusPrefix}${plusValue}${plusSuffixPEBB}" oninput="adjustInputWidth(this)"><br>
+                                          <input type="text" value="${minusValue}" oninput="adjustInputWidth(this)">`;
+                        plusSuffixPEBB = incrementPlusSuffix(plusSuffixPEBB);
+                    }
+                }
+
+                let pleecHeaderCell = document.createElement('th');
+                pleecHeaderCell.rowSpan = 2;
+                pleecHeaderCell.innerHTML = `${addPLEEC ? 'PLEEC' : 'PLPF'}: <input type="text" value="${prefixPLEEC}${String(serialPLEEC++).padStart(6, '0')}" readonly oninput="adjustInputWidth(this)"><br>
+                                             <input type="text" value="${equalValue}" oninput="adjustInputWidth(this)"><br>
+                                             <input type="text" value="${plusPrefix}${plusValue}${plusSuffixPLEEC}" oninput="adjustInputWidth(this)"><br>
+                                             <input type="text" value="${minusValue}" oninput="adjustInputWidth(this)">`;
+                headerRow.appendChild(pleecHeaderCell);
+
+                plusValue = incrementPlusValue(plusValue);
+                outputDiv.appendChild(table);
+            }
+
+            document.querySelectorAll('input[type="text"]').forEach(adjustInputWidth);
+        }
+
+        window.onload = function() {
+            document.getElementById('fileName').value = document.location.pathname.split('/').pop();
+        };
+    </script>
+</head>
+<body>
+    <h1>Converter Serialization</h1>
+    <form onsubmit="createTables(); return false;">
+        <table border="1">
+            <tr>
+                <td width="300">
+                    <label>Project Name:</label><input type="text" id="projectName" value="Project Name"><br>
+                    <label>Project ID:</label><input type="text" id="projectId" value="ID"><br>
+                    <label>Customer:</label><input type="text" id="customer" value="Customer"><br>
+					<br>
+                    <label>File name:</label><input type="text" id="fileName" value="*File name of this file*"><br>
+                </td>
+                <td width="300">
+                    <label>Type:</label>
+                    <select id="type">
+                        <option value="STATCOM">STATCOM</option>
+                        <option value="RAIL">RAIL</option>
+                        <option value="HYDRO">HYDRO</option>
+                    </select><br>
+                    <label>Number of Phase Legs (PL, 3-9):</label><input type="number" id="numPL" min="3" max="9" value="3" required><br>
+                    <label>Number of Phase Leg Sections (PLS, 1-3):</label><input type="number" id="numPLS" min="1" max="3" value="3" required><br>
+                    <label>Number of PEBBs in PLS1 (0-7):</label><input type="number" id="numPEBB1" min="0" max="7" value="4" required><br>
+                    <label>Number of PEBBs in PLS2 (0-7):</label><input type="number" id="numPEBB2" min="0" max="7" value="4" required><br>
+                    <label>Number of PEBBs in PLS3 (0-7):</label><input type="number" id="numPEBB3" min="0" max="7" value="4" required><br>
+                    <label>Add PLEEC:</label><input type="checkbox" id="addPLEEC" checked><br>
+                </td>
+                <td width="300">
+                    <label>Prefix for SN PL:</label><input type="text" id="prefixPL" value="1JNGX" required><br>
+                    <label>Prefix for SN PLS:</label><input type="text" id="prefixPLS" value="1JNGX" required><br>
+                    <label>Prefix for SN PLC:</label><input type="text" id="prefixPLC" value="1JNGX" required><br>
+                    <label>Prefix for SN PLEEC/PLPF:</label><input type="text" id="prefixPLEEC" value="1JNGX" required><br>
+                    <label>Prefix for SN PEBB:</label><input type="text" id="prefixPEBB" value="1JNGX" required><br>
+                </td>
+				<td width="300">
+                    <label>Start SN for PL:</label><input type="number" id="startSerialNumberPL" value="1" required><br>
+                    <label>Start SN for PLS:</label><input type="number" id="startSerialNumberPLS" value="1" required><br>
+                    <label>Start SN for PLC:</label><input type="number" id="startSerialNumberPLC" value="1" required><br>
+                    <label>Start SN for PLEEC/PLPF:</label><input type="number" id="startSerialNumberPLEEC" value="1" required><br>
+                    <label>Start SN for PEBB:</label><input type="number" id="startSerialNumberPEBB" value="1" required><br>
+                </td>
+                <td width="300">
+                    <label>Equal:</label><input type="text" id="equalValue" value="=A01.ATD01" required><br>
+					<br>
+                    <label>Plus Prefix:</label><input type="text" id="plusPrefix" value="+U01.UMT02.TA"><br>
+                    <label>Plus:</label><input type="text" id="plusValue" value="011" required><br>
+                    <label>Plus Suffix for PLS:</label><input type="text" id="plusSuffixPLS" value=".91"><br>
+                    <label>Plus Suffix for PLC:</label><input type="text" id="plusSuffixPLC" value=".00"><br>
+                    <label>Plus Suffix for PLEEC/PLPF:</label><input type="text" id="plusSuffixPLEEC" value=".90"><br>
+                    <label>Plus Suffix for PEBB:</label><input type="text" id="plusSuffixPEBB" value=".01"><br>
+					<br>
+                    <label>Minus:</label><input type="text" id="minusValue" value="-AA001" required><br>
+                </td>
+				
+            </tr>
+        </table>
+        <button type="submit">Generate</button>
+    </form>
+    <div id="output"></div>
+</body>
+</html>
