@@ -7,9 +7,31 @@
    width="1511.8134"
    height="1043.1493"
    viewBox="0 0 1511.8134 1043.1493"
+   sodipodi:docname="background.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.79105994"
+     inkscape:cx="768.58904"
+     inkscape:cy="735.08968"
+     inkscape:window-width="2560"
+     inkscape:window-height="1369"
+     inkscape:window-x="2552"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g100" />
   <defs
      id="defs6">
     <mask
@@ -436,11 +458,11 @@
                                 <text
                                    xml:space="preserve"
                                    transform="scale(1,-1)"
-                                   style="font-variant:normal;font-weight:normal;font-size:4.8189px;font-family:Arial;-inkscape-font-specification:ArialMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                                   style="font-variant:normal;font-weight:normal;font-size:4.8189px;font-family:Arial;-inkscape-font-specification:ArialMT;writing-mode:lr-tb;white-space:pre;inline-size:127.905;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
                                    id="text218"><tspan
-                                   x="0 3.5515294 4.8911834 8.370429 9.4402246 10.77988 13.459188 15.868638 18.547947 19.617743 20.957396 24.171602 26.85091 29.53022 31.134912 33.81422 36.223671 37.563324 40.242634 42.921944 45.60125 48.28056 49.620213 50.694828 53.909035 54.978828 56.048626 58.727936 60.067589 63.546833 66.226143 68.63559 71.314903 72.654556 75.333862 76.673515 79.08297 81.762276 83.366966 86.04628 88.725586 91.404892 94.084206 95.153999 96.493652 99.172958 101.85227"
+                                   x="0"
                                    y="0"
-                                   id="tspan216">© Hitachi Energy 2024. Alle Rechte vorbehalten.</tspan></text>
+                                   id="tspan1">© Hitachi Energy 2025. Alle Rechte vorbehalten.</tspan></text>
                                 <g
                                    id="g220"
                                    transform="matrix(1.013459,0,0,0.99994,65.27054,-20.369106)">
@@ -671,11 +693,11 @@
                                 <text
                                    xml:space="preserve"
                                    transform="scale(1,-1)"
-                                   style="font-variant:normal;font-weight:normal;font-size:11.3386px;font-family:Arial;-inkscape-font-specification:ArialMT;writing-mode:lr-tb;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
+                                   style="font-variant:normal;font-weight:normal;font-size:11.3386px;font-family:Arial;-inkscape-font-specification:ArialMT;writing-mode:lr-tb;white-space:pre;inline-size:132.404;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none"
                                    id="text344"><tspan
-                                   x="0 6.3042617 11.973561 20.16003 27.087915 33.392178 39.696438 46.000702 52.304962 58.609222 64.913483 73.099953 79.404213"
+                                   x="0"
                                    y="0"
-                                   id="tspan342">1JNT008032D80</tspan></text>
+                                   id="tspan2">1JNTxxxxxxXxx</tspan></text>
                                 <g
                                    id="g346"
                                    transform="matrix(1.032931,0,0,0.999932,159.86292,-4.839724)">
